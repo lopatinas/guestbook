@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="card-header">{{ message.author.email }} - {{ message.createdAt|date('d.m.Y H:i') }}</div>
+    <div class="card-body">
+        <p class="card-text">{{ message.text }}</p>
+        {% if message.attachments is not empty %}
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {% for attachment in message.attachments %}
+                        <a href="{{ attachment.path }}" class="card-link" target="_blank">{{ attachment.fileName }}</a>
+                    {% endfor %}
+                </li>
+            </ul>
+        {% endif %}
+        <a class="btn btn-primary" href="{{ path('message_reply', {id: message.id}) }}">Reply</a>
+    </div>
+    {% if message.children is not empty %}
+        <ul class="list-group list-group-flush">
+            {% for child in message.children %}
+                <li class="list-group-item">
+                    {{ include('message/_message.html.twig', {message: child}) }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>

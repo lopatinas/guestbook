@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Guestbook{% endblock %}</title>
+    {{ encore_entry_link_tags('app') }}
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<div class="container">
+    <nav class="nav justify-content-center">
+        <a class="nav-link{% if app.request.attributes.get('_route') == 'home' %} active{% endif %}" href="{{ path('home') }}">List</a>
+        {% if app.user is null %}
+            <a class="nav-link{% if app.request.attributes.get('_route') == 'login' %} active{% endif %}" href="{{ path('login') }}">Login</a>
+            <a class="nav-link{% if app.request.attributes.get('_route') == 'register' %} active{% endif %}" href="{{ path('register') }}">Register</a>
+        {% else %}
+            <a class="nav-link{% if app.request.attributes.get('_route') == 'message_new' %} active{% endif %}" href="{{ path('message_new') }}">New</a>
+            <a class="nav-link" href="{{ path('logout') }}">Logout</a>
+        {% endif %}
+    </nav>
+    <div class="row">
+        {% for message in app.flashes('success') %}
+            <div class="col-md-6 offset-md-3">
+                <div class="alert alert-success" role="alert">{{ message }}</div>
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="col-md-6 offset-md-3">
+                <div class="alert alert-danger" role="alert">{{ message }}</div>
+            </div>
+        {% endfor %}
+    </div>
+    {% block body %}{% endblock %}
+</div>
+{{ encore_entry_script_tags('app') }}
+{% block javascripts %}{% endblock %}
+</body>
+</html>

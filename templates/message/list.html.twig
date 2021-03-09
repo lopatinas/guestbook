@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-10 offset-md-1 scroll-items-container">
+            {% for message in messages %}
+                <div class="scroll-item">
+                    {{ include('message/_message.html.twig', {message: message}) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
